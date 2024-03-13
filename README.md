@@ -12,15 +12,16 @@ A 3D printed kibble/treat dispenser powered by a Raspberry Pi Pico. Give your pe
 
 ## Build Instructions
 ### Parts List
-Before you get started, here are all the things you'll need to buy to build your very own KibbleBot. For reference I've included links to the products I purchased, mainly from Amazon and RobotShop:
+Before you get started, here are all the things you'll need to buy to build your very own KibbleBot. For reference I've included links to the products I purchased:
 1. Raspberry Pi Pico W
-1. Easy Driver Stepper Motor Controller
-1. NEMA 17 Stepper Motor (12V and 350mA)
-1. 12V Power Supply
-1. M2x5mm Screws
-1. M2 Heat Set Nuts (3.2mm outer diameter)
-1. 6x6x4.3mm TACT Switch Push Button
-1. 12V DC Barrel Connector (11mm outer diameter) 
+    - Source from your local [Raspberry Pi authorized reseller](https://www.raspberrypi.com/resellers/)
+1. [Easy Driver Stepper Motor Controller](https://ca.robotshop.com/products/easydriver-stepper-motor-controller-a3967)
+1. [NEMA 17 Stepper Motor (12V and 350mA)](https://www.pishop.ca/product/stepper-motor-nema-17-size-200-stepsrev-12v-350ma/)
+1. 12V Power Supply (I use one I had laying around)
+1. [M2x5mm Screws](https://www.amazon.ca/dp/B0C38YFL3D)
+1. [M2 Heat Set Nuts (3.2mm outer diameter)](https://www.amazon.ca/dp/B0CNRSJ1B2)
+1. [6x6x4.3mm TACT Switch Push Button](https://www.amazon.ca/dp/B06Y6DDG8K)
+1. [12V DC Barrel Connector (11mm outer diameter)](https://www.amazon.ca/dp/B08SJM2G52)
 1. Solder and wire
 
 ### 3D Printed Parts
