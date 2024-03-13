@@ -1,8 +1,8 @@
 # KibbleBot
-A 3D printed kibble/trest dispenser powered by a Raspberry Pi Pico. Give your pet a treat even if you're not home!
+A 3D printed kibble/treat dispenser powered by a Raspberry Pi Pico. Give your pet a treat even if you're not home!
 
 ## Features
-- Kibbles dispensed through the push of an button or remotely through a web app
+- Kibbles dispensed through the push of a button or remotely through a web app
 - Easy to print and build
 - Minimal electronics
 - Happy puppers
@@ -34,7 +34,7 @@ I've included [Bambu Studio Project file](docs/models/kibble_bot.3mf) with all p
 |[Base Top](docs/models/base_top.stl)|![Rendering of the Base Top](docs/images/base_top.png)|The Base Top sits inside the Base Bottom covering both gears. It has mounting holes in a 31mm pattern to mount the NEMA 17 stepper motor. You may need to drill out the holes with a small drill bit in order to fit the screws in.<br><br>**Print Orientation**: Side up down<br>**Quantity**: 1<br>**Supports**: No|
 |[Large Gear Wheel](docs/models/large_gear_wheel.stl)|![Rendering of the Large Gear Wheel](docs/images/large_gear_wheel.png)|The Large Gear Wheel is spun 180 degrees by the Small Gear Wheel allowing kibbles to fall through it and down the chute in the base bottom. It also has two holes for the optional Stir Sticks if you find that kibbles are getting stuck in the Hopper.<br><br>**Print Orientation**: Side up down<br>**Quantity**: 1<br>**Supports**: No|
 |[Small Gear Wheel](docs/models/small_gear_wheel.stl)|![Rendering of the Small Gear Wheel](docs/images/small_gear_wheel.png)|The Small Gear Wheel is connected to the stepper motor and turns the Large Gear Wheel.<br><br>**Print Orientation**: Side up down<br>**Quantity**: 1<br>**Supports**: No|
-|[Stir Stick](docs/models/stir_stick.stl) (optional)|![Rentering of the Stir Stick](docs/images/stir_stick.png)|Slots into the top of the Large Gear Wheel and can help with kibbles getting stuck in the Hopper and not flowing through.<br><br>**Print Orientation**: Vertical<br>**Quantity**: 2<br>**Supports**: Yes (brim)|
+|[Stir Stick](docs/models/stir_stick.stl) (optional)|![Rendering of the Stir Stick](docs/images/stir_stick.png)|Slots into the top of the Large Gear Wheel and can help with kibbles getting stuck in the Hopper and not flowing through.<br><br>**Print Orientation**: Vertical<br>**Quantity**: 2<br>**Supports**: Yes (brim)|
 |[Hopper](docs/models/hopper.stl)|![Rendering of the Hopper](docs/images/hopper.png)|The Hopper sits on top of the Base Bottom and holds kibbles to be dispensed. Contains a cut out so that it will fit over the stepper motor.<br><br>**Print Orientation**: Up side down<br>**Quantity**: 1<br>**Supports**: No|
 |[Lid](docs/models/lid.stl)|![Rendering of the Lid](docs/images/lid.png)|Sits on top of the Hopper to close it off.<br><br>**Print Orientation**: Up side down<br>**Quantity**: 1<br>**Supports**: No|
 |[Electronics Housing](docs/models/electronics_housing.stl)|![Rendering of the Electronics Housing](docs/images/electronics_housing.png)|Houses the Raspberry Pi Pico and the Easy Driver with four holes for the M2 heat set nuts to mount both boards. Also has cut outs for the barrel connector to pass through and to mount the button.<br><br>**Print Orientation**: Right side up<br>**Quantity**: 1<br>**Supports**: Yes|
@@ -46,7 +46,7 @@ The 3D printed parts are assembled together like so:
 ![KibbleBot Exploded View](docs/images/3d_printed_assembly.png)
 
 ### Electronics
-Since the Pico uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measing the voltage across the +5V Output and GND, which should now be 3.3V.
+Since the Pico uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measuring the voltage across the +5V Output and GND, which should now be 3.3V.
 
 Next, wire the Easy Driver to the Pico as follows:
 1. DIR -> GP15
@@ -77,7 +77,7 @@ I also recommend setting up a Visual Studio project and installing the [MicroPic
 
 #### main.py
 
-This is the Micropython code which runs on the Pico and interfaces with the Easy Driver to turn the stepper motor and dispense kibbles. It first connects to WiFi and then listens for button presses and has a simple webserver to listen for web requests.
+This is the Micropython code which runs on the Pico and interfaces with the Easy Driver to turn the stepper motor and dispense kibbles. It first connects to WiFi and then listens for button presses and has a simple web server to listen for web requests.
 
 I've included two examples: `main.py` and `main_noauth.py`. 
 
