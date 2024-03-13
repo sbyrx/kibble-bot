@@ -7,6 +7,9 @@ A 3D printed kibble/trest dispenser powered by a Raspberry Pi Pico. Give your pe
 - Minimal electronics
 - Happy puppers
 
+<img src="docs/images/kibblebot.gif" width=350>
+<img src="docs/images/webapp.gif" width=350>
+
 ## Build Instructions
 ### Parts List
 Before you get started, here are all the things you'll need to buy to build your very own KibbleBot. For reference I've included links to the products I purchased, mainly from Amazon and RobotShop:
@@ -43,7 +46,7 @@ The 3D printed parts are assembled together like so:
 ![KibbleBot Exploded View](docs/images/3d_printed_assembly.png)
 
 ### Electronics
-Since the Pico uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measing the voltage across the +5V Output and GND, which shoul now be 3.3V.
+Since the Pico uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measing the voltage across the +5V Output and GND, which should now be 3.3V.
 
 Next, wire the Easy Driver to the Pico as follows:
 1. DIR -> GP15
@@ -53,11 +56,16 @@ Next, wire the Easy Driver to the Pico as follows:
 
 Connect one side of the TACT Button to GP10 and the other to ground (Pin 13). I used a little bit of CA glue on the back of the button to glue it to the electronics housing, as well as some glue on the back of the keycap to glue it to the TACT Button.
 
-The Easy Driver as a 5V (3.3V) output which I'm taking advantage of to power the Pico. Wire the 5V (now 3.3V) output on the Easy Driver to VSYS on the Pico, and GND to GND.
+The Easy Driver has a 5V (3.3V) output which I'm taking advantage of to power the Pico. Wire the 5V (now 3.3V) output on the Easy Driver to VSYS on the Pico, and GND to GND.
+
+Set the heat set nuts into their holes in the bottom of the housing, and mount both boards using the M3 screws.
 
 Plug in your stepper motor, connect your 12V power supply to PWR IN on the Easy Driver, and you should be all set with the electronics!
 
 **Note:** I've opted to solder headers to each board and make the connections using jumper wires. That being said, it's important to make sure the PWR IN and stepper motor connections are solid or you risk blowing up the Easy Driver. Always power off the Easy Driver before plugging/unplugging the stepper motor!
+
+<img src="docs/images/electronics_housing2.jpg" width=400>
+<img src="docs/images/electronics_housing3.jpg" width=400>
 
 ![KibbleBot wiring diagram](/docs/images/wiring_diagram.png)
 
@@ -95,5 +103,3 @@ In VSCode, click "Toggle Pico-W-FS" in the bottom toolbar. The "Pico (W) Remote 
 ## Conclusion
 
 With both files copied to your Pico, you're good to go! Unplug in from your computer and power everything up with the 12V supply. When the Pico shows a solid green LED it means it's connected to WiFi and ready to go. Navigate to the Pico's IP address in your browser and click "Dispense"!
-
-<img src="docs/images/webapp.gif" width=350>
