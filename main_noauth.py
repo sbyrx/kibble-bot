@@ -91,7 +91,7 @@ def handleWebRequest():
 
 def dispense():
     print('dispensing kibble')
-    sleep.value(1)
+    sleep.high()
     for x in range(1600):
         step.value(1)
         time.sleep_us(250)
@@ -100,6 +100,7 @@ def dispense():
         if x % 100 == 0:
             led.toggle()
     led.high()
+    sleep.low()
     print('kibble dispensed')
 
 def servePage(cl, url):
