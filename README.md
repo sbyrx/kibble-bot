@@ -23,6 +23,8 @@ Before you get started, here are all the things you'll need to buy to build your
 1. [6x6x4.3mm TACT Switch Push Button](https://www.amazon.ca/dp/B06Y6DDG8K)
 1. [12V DC Barrel Connector (11mm outer diameter)](https://www.amazon.ca/dp/B08SJM2G52)
 1. Solder and wire
+1. Heat shrink tube
+1. [Heat sinks](https://www.amazon.ca/dp/B0814V66JV) (optional, but the Easy Driver can get pretty hot)
 
 ### 3D Printed Parts
 Print all parts with 0.2mm layer height and 15% infill. I recommend printing both gears with 4 wall loops for some added strength.
@@ -53,7 +55,7 @@ Next, wire the Easy Driver to the Pico as follows:
 1. DIR -> GP15
 1. STEP -> GP14
 1. GND -> GND (Pin 18)
-1. SLP -> GP13
+1. SLP -> GP13 
 
 Connect one side of the TACT Button to GP10 and the other to ground (Pin 13). I used a little bit of CA glue on the back of the button to glue it to the electronics housing, as well as some glue on the back of the keycap to glue it to the TACT Button.
 
@@ -76,21 +78,17 @@ The KibbleBot software for the Pico is written in Micropython. Follow the [instr
 
 I also recommend setting up a Visual Studio project and installing the [MicroPico extension](https://github.com/paulober/MicroPico) to copy the code to the board.
 
+You'll also need to have `NodeJS` and `npm` set up on your machine in order to build the web app.
+
 #### main.py
 
 This is the Micropython code which runs on the Pico and interfaces with the Easy Driver to turn the stepper motor and dispense kibbles. It first connects to WiFi and then listens for button presses and has a simple web server to listen for web requests.
 
-I've included two examples: `main.py` and `main_noauth.py`. 
-
-`main.py` is designed to have the Pico sit behind a [CloudFlare Zero-Trust tunnel](https://www.cloudflare.com/products/tunnel/) running on another machine on your network to handle authentication and authorization. This way the Pico is not exposed directly to the internet. It pulls the authenticated user's email out of the HTTP headers and limits the number of kibbles that person can dispense to one per week. It's also possible to whitelist emails who can dispense unlimited kibbles.
-
-`main_noauth.py` is a stripped down version of `main.py` without the added features and allows anyone who loads the site to dispense kibbles. If you're not sure where to start, choose this one as it's the most simple.
-
-To run the code on your Pico, first edit `main.py` and set the WiFi SSID and password (and whitelist emails if using). Then connect your Pico to your computer, and wait for VSCode to show "Pico Connected" in the bottom toolbar. Then right click on `main.py` and click "Upload current file to Pico". If you're using `main_noauth.py`, make sure to rename it `main.py` before uploading it to the Pico.
+To run the code on your Pico, first edit `main.py` and set the WiFi SSID and password. Then connect your Pico to your computer, and wait for VSCode to show "Pico Connected" in the bottom toolbar. Then right click on `main.py` and click "Upload current file to Pico".
 
 #### Web App
 
-I've created a simple Svelte app which `main.py` serves up and allows kibbles to be dispensed from a web browser. The web app is built into a single HTML file to make it easy to serve up.
+I've created a simple Svelte app which `main.py` serves up and allows kibbles to be dispensed from a web browser. The web app is built into a single HTML file to make it easy for the Micropython code to serve up.
 
 You'll need to build the web application and copy the resulting `index.html` to the Pico:
 1. Open up a terminal and set the working directory to `/web`
@@ -101,6 +99,14 @@ You'll need to build the web application and copy the resulting `index.html` to 
 
 In VSCode, click "Toggle Pico-W-FS" in the bottom toolbar. The "Pico (W) Remote Workspace" view should now show two files: `main.py` and `index.html`.
 
-## Conclusion
+![Screenshot of the Pico W FS view](/docs/images/pico_w_fs.png)
 
 With both files copied to your Pico, you're good to go! Unplug in from your computer and power everything up with the 12V supply. When the Pico shows a solid green LED it means it's connected to WiFi and ready to go. Navigate to the Pico's IP address in your browser and click "Dispense"!
+
+### Accessing KibbleBot remotely
+
+If your home router supports running a VPN server, this is likely your easiest option for accessing the KibbleBot when not at home. Simply connect your phone/laptop to the VPN and browse to the local IP address of the Pico.
+
+Another option is a [Cloudflare Zero-Trust tunnel](https://www.cloudflare.com/products/tunnel/), but this requires you to run the Cloudflare client on another machine that's always powered on.
+
+In my set up I've opted to use a Cloudflare tunnel as I already have the Cloudflare client running on my home server and several tunnels configured. This set up enables me to share the URL with friends and family so they can dispense kibbles too. I've included the Micropython code that I use (`main_rate_limiting.py`) which keeps track of the number of kibbles each user has dispensed and limits them to once per week.
