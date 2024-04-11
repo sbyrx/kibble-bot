@@ -29,7 +29,7 @@ password = 'PASSWORD'
 
 database = dict()
 
-# These users are limited to once per week and can dispense unlimited kibbles
+# These users are not limited to once per week and can dispense unlimited kibbles
 whitelist = ['myemail@domain.com']
 
 # Connect Pi to WiFi
