@@ -1,11 +1,14 @@
 # KibbleBot
-A 3D printed kibble/treat dispenser powered by a Raspberry Pi Pico. Give your pet a treat even if you're not home!
+A 3D printed kibble/treat dispenser powered by an Arduino Nano ESP32 or a Raspberry Pi Pico W. Give your pet a treat even if you're not home!
+
+**Update 2025-03-01:**
+Added Arduino support and instructions for controlling KibbleBot via Arduino Cloud.
 
 **Update 2024-04-10:**
 Added a new version of the model which allows KibbleBot to be mounted to a wall and the hopper is now attached more securely using screws.
 
 ## Features
-- Kibbles dispensed through the push of a button or remotely through a web app
+- Kibbles dispensed through the push of a button or remotely through a web app (Pi Pico) or Arduino Cloud (Nano ESP32)
 - Easy to print and build
 - Minimal electronics
 - Happy puppers
@@ -16,7 +19,8 @@ Added a new version of the model which allows KibbleBot to be mounted to a wall 
 ## Build Instructions
 ### Parts List
 Before you get started, here are all the things you'll need to buy to build your very own KibbleBot. For reference I've included links to the products I purchased:
-1. Raspberry Pi Pico W
+1. [Arduino Nano ESP 32](https://store.arduino.cc/products/nano-esp32)
+1. OR Raspberry Pi Pico W
     - Source from your local [Raspberry Pi authorized reseller](https://www.raspberrypi.com/resellers/)
 1. [Easy Driver Stepper Motor Controller](https://ca.robotshop.com/products/easydriver-stepper-motor-controller-a3967)
 1. [NEMA 17 Stepper Motor (12V and 350mA)](https://www.pishop.ca/product/stepper-motor-nema-17-size-200-stepsrev-12v-350ma/)
@@ -60,7 +64,44 @@ Then, assemble the rest of the 3D printed parts like so:
 
 Screw three M3x6mm screws with flat washers through the holes in the Hopper to securely attach it to the Base Bottom.
 
-### Electronics
+## Electronics
+Below I've provided instructions for two different options for adding smarts to your KibbleBot, either an Arduino Nano ESP32 using Arduino Cloud (easy) or an Raspberry Pi Pico W with a simple web server (a bit more complicated).
+
+### Arduino Nano ESP32
+#### Wiring
+Since the Nano uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measuring the voltage across the +5V Output and GND, which should now be 3.3V.
+
+Next, wire the Easy Driver to the Nano as follows:
+1. DIR -> D2
+1. STEP -> D3
+1. SLP -> D4
+1. GND -> GND
+
+Connect one side of the TACT Button to D5 and the other side to ground. I used a little bit of CA glue on the back of the button to glue it to the electronics housing, as well as some glue on the back of the keycap to glue it to the TACT Button.
+
+The Easy Driver has a 5V (3.3V) output which can be used to power the Nano. Wire the 5V (now 3.3V) output on the Easy Driver to VIN on the Nano and GND to GND. The Nano's VIN pin can accept an input voltage range of 6-21V, so you could also power it directly from the 12V power supply.
+
+Set the heat set nuts into their holes in the bottom of the housing, and mount both boards using the M2 screws.
+
+Plug in your stepper motor, connect your 12V power supply to PWR IN on the Easy Driver, and you should be all set with the electronics!
+
+#### Code
+Begin by following [the instructions](https://docs.arduino.cc/tutorials/nano-esp32/cloud-setup/) on the Arduino website for configuring your Nano ESP32, connecting it to your WiFi, and hooking it up to the Arduino Cloud, and creating a new "Thing".
+
+Once completed, on the Setup tab of your Thing, add a new Read/Write variable called `dispense` of type `boolean`. 
+
+Now select the Sketch tab. The Arduino Cloud IDE will have auto-generated a sketch with some boilerplate code for connecting to WiFi and to the cloud as well as a function called `onDispenseChange()` which will be triggered anytime our `boolean` variable is changed.
+
+Open up `kibblebot.ino` and copy the contents of it into your sketch in the Arduino Cloud. Compile the sketch and upload it to the Nano.
+
+The last step is to create a [Dashboard](https://app.arduino.cc/dashboards) which will tell the Nano to dispense kibbles when a button is pressed. Create a new Dashboard, click the Edit button, then Add, and choose the Button type. Link it to your `dispense` variable and give it a name.
+
+When the button is pressed, `onDispenseChange()` will be called in your sketch via the Arduino Cloud, and kibbles will be dispensed!
+
+<img src="docs/images/arduino_dashboard.png">
+
+### Raspberry Pi Pico
+#### Wiring
 Since the Pico uses 3.3V logic, the first thing you should do is switch the Easy Driver to use 3.3V logic as well by soldering SJ2 closed (placing a small glob of solder on the two pads on the bottom left hand corner of the board where it's written "5V/3V"). You can confirm you've done this correctly by measuring the voltage across the +5V Output and GND, which should now be 3.3V.
 
 Next, wire the Easy Driver to the Pico as follows:
@@ -84,7 +125,7 @@ Plug in your stepper motor, connect your 12V power supply to PWR IN on the Easy 
 
 ![KibbleBot wiring diagram](/docs/images/wiring_diagram.png)
 
-### Code
+#### Code
 
 The KibbleBot software for the Pico is written in Micropython. Follow the [instructions here](https://www.raspberrypi.com/documentation/microcontrollers/micropython.html) to flash Micropython onto your board.
 
@@ -92,13 +133,13 @@ I also recommend setting up a Visual Studio project and installing the [MicroPic
 
 You'll also need to have `NodeJS` and `npm` set up on your machine in order to build the web app.
 
-#### main.py
+##### main.py
 
 This is the Micropython code which runs on the Pico and interfaces with the Easy Driver to turn the stepper motor and dispense kibbles. It first connects to WiFi and then listens for button presses and has a simple web server to listen for web requests.
 
 To run the code on your Pico, first edit `main.py` and set the WiFi SSID and password. Then connect your Pico to your computer, and wait for VSCode to show "Pico Connected" in the bottom toolbar. Then right click on `main.py` and click "Upload current file to Pico".
 
-#### Web App
+##### Web App
 
 I've created a simple Svelte app which `main.py` serves up and allows kibbles to be dispensed from a web browser. The web app is built into a single HTML file to make it easy for the Micropython code to serve up.
 
@@ -115,7 +156,7 @@ In VSCode, click "Toggle Pico-W-FS" in the bottom toolbar. The "Pico (W) Remote 
 
 With both files copied to your Pico, you're good to go! Unplug it from your computer and power everything up with the 12V supply. When the Pico shows a solid green LED it means it's connected to WiFi and ready to go. Navigate to the Pico's IP address in your browser and click "Dispense"!
 
-### Accessing KibbleBot remotely
+#### Accessing KibbleBot remotely
 
 If your home router supports running a VPN server, this is likely your easiest option for accessing the KibbleBot when not at home. Simply connect your phone/laptop to the VPN and browse to the local IP address of the Pico.
 
