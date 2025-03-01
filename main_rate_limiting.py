@@ -30,7 +30,7 @@ password = 'PASSWORD'
 database = dict()
 
 # These users are not limited to once per week and can dispense unlimited kibbles
-whitelist = ['myemail@domain.com']
+allowlist = ['myemail@domain.com']
 
 # Connect Pi to WiFi
 def connectWifi():
@@ -136,7 +136,7 @@ def canDispense(email):
     if email not in database:
         database[email] = 0
 
-    if email in whitelist:
+    if email in allowlist:
         database[email] = database[email] + 1
         return True;
 
@@ -165,7 +165,7 @@ def servePage(cl, url, email):
             cl.send(line)
 
         page.close()
-    elif url == '/stats' and email in whitelist:
+    elif url == '/stats' and email in allowlist:
         cl.send('HTTP/1.0 200 OK\r\nContent-type: application/json\r\n\r\n' + json.dumps(database))
     else:
         cl.send('HTTP/1.0 404 Not Found\r\n\r\n')
