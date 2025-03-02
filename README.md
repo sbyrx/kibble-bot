@@ -52,6 +52,7 @@ I've included [Bambu Studio Project file](docs/models/kibble_bot.3mf) with all p
 |[Lid](docs/models/lid.stl)|![Rendering of the Lid](docs/images/lid.png)|Sits on top of the Hopper to close it off.<br><br>**Print Orientation**: Up side down<br>**Quantity**: 1<br>**Supports**: No|
 |[Electronics Housing](docs/models/electronics_housing.stl)|![Rendering of the Electronics Housing](docs/images/electronics_housing.png)|Houses the Raspberry Pi Pico and the Easy Driver with four holes for the M2 heat set nuts to mount both boards. Also has cut outs for the barrel connector to pass through and to mount the button.<br><br>**Print Orientation**: Right side up<br>**Quantity**: 1<br>**Supports**: Yes|
 |[Key Cap](docs/models/key_cap.stl)|![Rendering of the Key Cap](docs/images/key_cap.png)|The Key Cap is glued on top of the TACT Button and fits inside of a recessed compartment in the Electronics Housing.<br><br>**Print Orientation**: Up side down<br>**Quantity**: 1<br>**Supports**: No|
+|[Shute (optional)](docs/models/shute.stl)|![Rendering of the Shute](docs/images/shute.png)|Redirects the kibbles off to the left instead of straight down.<br><br>**Print Orientation**: Flat side<br>**Quantity**: 1<br>**Supports**: Yes|
 
 ### Assembly
 Begin by setting the M3 heat set nuts into the three tabs in the Base Bottom which will hold the hopper in place.
@@ -80,6 +81,8 @@ Next, wire the Easy Driver to the Nano as follows:
 Connect one side of the TACT Button to D5 and the other side to ground. I used a little bit of CA glue on the back of the button to glue it to the electronics housing, as well as some glue on the back of the keycap to glue it to the TACT Button.
 
 The Easy Driver has a 5V (3.3V) output which can be used to power the Nano. Wire the 5V (now 3.3V) output on the Easy Driver to VIN on the Nano and GND to GND. The Nano's VIN pin can accept an input voltage range of 6-21V, so you could also power it directly from the 12V power supply.
+
+<img src="docs/images/arduino_wiring_diagram.png">
 
 Set the heat set nuts into their holes in the bottom of the housing, and mount both boards using the M2 screws.
 
@@ -111,7 +114,7 @@ Next, wire the Easy Driver to the Pico as follows:
 1. SLP -> GP13 
 
 Connect one side of the TACT Button to GP10 and the other to ground (Pin 13). I used a little bit of CA glue on the back of the button to glue it to the electronics housing, as well as some glue on the back of the keycap to glue it to the TACT Button.
-
++
 The Easy Driver has a 5V (3.3V) output which I'm taking advantage of to power the Pico. Wire the 5V (now 3.3V) output on the Easy Driver to VSYS on the Pico, and GND to GND.
 
 Set the heat set nuts into their holes in the bottom of the housing, and mount both boards using the M2 screws.
