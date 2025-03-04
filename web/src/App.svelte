@@ -1,6 +1,6 @@
 <script lang="ts">
-  let status = ''
-  let disabled = false
+  let status = $state('')
+  let disabled = $state(false)
 
   async function dispense() {
     status = 'Dispensing kibbles...'
@@ -17,7 +17,7 @@
 <main>
   <h1>KibbleBot</h1>
 
-  <button on:click={dispense} disabled={disabled}>
+  <button onclick={dispense} disabled={disabled}>
     Dispense
   </button>
 
